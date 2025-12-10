@@ -7,8 +7,10 @@ from Database.db import get_session
 from dotenv import load_dotenv
 import os
 
+load_dotenv()
+
 SECRET_KEY = os.getenv("SECRET_KEY")
-ALGORITHM = os.getenv("ALGORITH")
+ALGORITHM = os.getenv("ALGORITHM")
 
 oauth2_schema = OAuth2PasswordBearer("/auth/login")
 

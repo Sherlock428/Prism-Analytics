@@ -56,7 +56,7 @@ class Business(SQLModel, table=True):
 
     owner_id: str = Field(foreign_key="users.id")
 
-    owner: List["User"] = Relationship(back_populates="business")
+    owner: User = Relationship(back_populates="business")
     feedbacks: List["Feedback"] = Relationship(back_populates="business")
 
 class Feedback(SQLModel, table=True):
