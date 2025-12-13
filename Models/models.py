@@ -16,6 +16,12 @@ class ImprovementCategory(Enum):
     LOCALE = "locale"
     OTHERS = "others"
 
+class BillingCycle(str, Enum):
+    MONTHLY = "monthly"
+    QUARTERLY = "quarterly"
+    YEARLY = "yearly"
+    LIFETIME = "lifetime"
+
 class User(SQLModel, table=True):
     __tablename__ = "users"
 
@@ -75,6 +81,25 @@ class Feedback(SQLModel, table=True):
 class FeedbackImprovement(SQLModel, table=True):
     feedback_id: int = Field(foreign_key="feedbacks.id")
     category: "ImprovementCategory" = Field(primary_key=True)
+
+class Plan(SQLModel, table=True):
+    __tablename__ = 'plan'
+
+    id: Optional[int] = Field(default=None, primary_key=True)
+    name: str = Field(max_length=200, unique=True, index=True)
+    slug: str = Field(max_length=200, unique=True, index=True)
+    description: Optional[str] = None
+
+    price: Decimal = Field(decimal_places=2, max_digits=10)
+    billing_cycle: BillingCycle = Field(default=BillingCycle.MONTHLY)
+
+    max_business: Optional[int] = None
+    max_feedbacks: Optional[int] = None
+
+    is_active: bool = Field(default=True)
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    update_at: Optional[datetime] = None
+
 class Subscription(SQLModel, table=True):
     __tablename__ = "subscriptions"
 
